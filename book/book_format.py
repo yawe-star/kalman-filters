@@ -14,7 +14,7 @@ for more information.
 """
 
 from contextlib import contextmanager
-from IPython.core.display import HTML
+from IPython.display import HTML
 import json
 import os.path
 import sys
@@ -47,7 +47,10 @@ def test_installation():
     except:
         print("Please install matplotlib before continuing. See chapter 0 for instructions.")
 
-    from distutils.version import LooseVersion
+    # distutils was removed in Python 3.12; compare versions with a small helper instead
+    import re
+    def LooseVersion(v):
+        return tuple(int(n) for n in re.findall(r'\d+', str(v))[:3])
 
     v = filterpy.__version__
     min_version = "1.4.4"
